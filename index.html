@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Partner Integration Program — ATB Partners</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:  #3C1053; --blue: #7B3FAB; --lblue: #F0E8FA;
+      --accent:#f59e0b; --bg: #F8F8F8; --white: #ffffff;
+      --g100: #F5F5F5; --g200: #E0E0E0; --g400: #A0A0A0;
+      --g600: #505050; --g800: #222222;
+      --sh: 0 2px 14px rgba(0,0,0,.07);
+      --sh2: 0 10px 36px rgba(0,0,0,.12);
+      --r: 13px; --rs: 8px;
+    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--g800); min-height: 100vh; }
+
+    /* ── NAVBAR ── */
+    nav {
+      background: rgba(255,255,255,.65);
+      backdrop-filter: blur(18px) saturate(180%);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,.5);
+      box-shadow: 0 2px 16px rgba(60,16,83,.08);
+      position: sticky; top: 0; z-index: 200;
+    }
+    .nav-inner {
+      max-width: 1440px; margin: 0 auto; padding: 0 28px; height: 64px;
+      display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px;
+    }
+    .logos { display: flex; align-items: center; gap: 16px; justify-self: center; }
+    .logo-atb { display: flex; align-items: center; text-decoration: none; }
+    .logo-atb img { height: 30px; width: auto; display: block; }
+    .vsep { width: 1px; height: 28px; background: var(--g200); flex-shrink: 0; }
+    .logo-p2 { display: flex; align-items: center; gap: 10px; }
+    .logo-p2 .mark {
+      width: 36px; height: 36px; background: var(--lblue); border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--blue); font-weight: 800; font-size: 12px; flex-shrink: 0;
+    }
+    .logo-p2 .wm { font-size: 15px; font-weight: 600; color: var(--g600); }
+    .lang-wrap { justify-self: end; position: relative; }
+    .lang-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.6); border: 1px solid var(--g200);
+      border-radius: 10px; padding: 7px 13px;
+      font-size: 13px; font-weight: 600; color: #3C1053;
+      cursor: pointer; transition: all .2s; white-space: nowrap;
+    }
+    .lang-btn:hover { border-color: var(--navy); background: var(--white); }
+    .lang-btn svg { width: 15px; height: 15px; color: var(--navy); flex-shrink: 0; }
+    .lang-chevron { width: 10px; height: 10px; color: var(--navy); transition: transform .2s; flex-shrink: 0; }
+    .lang-wrap.open .lang-chevron { transform: rotate(180deg); }
+    .lang-dropdown {
+      display: none; position: absolute; top: calc(100% + 8px); right: 0;
+      background: var(--white); border: 1px solid var(--g200);
+      border-radius: var(--r); box-shadow: var(--sh2); overflow: hidden; min-width: 170px; z-index: 400;
+    }
+    .lang-wrap.open .lang-dropdown { display: block; }
+    .lang-opt {
+      display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 16px;
+      background: none; border: none; font-size: 13px; cursor: pointer;
+      transition: background .15s; text-align: left; color: var(--g800);
+    }
+    .lang-opt:hover { background: var(--g100); }
+    .lang-opt.active { color: var(--navy); font-weight: 700; }
+    .lang-opt .flag { font-size: 16px; }
+    .lang-opt .check { margin-left: auto; color: var(--blue); display: none; }
+    .lang-opt.active .check { display: inline; }
+
+    /* ── TAB BAR (underline) ── */
+    .tab-bar { display: flex; align-items: flex-end; gap: 0; }
+    .tab-item {
+      display: flex; align-items: center; gap: 7px;
+      padding: 11px 18px 12px; font-size: 13.5px; font-weight: 600;
+      color: var(--g400); background: none; border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer; transition: color .18s, border-color .18s;
+      white-space: nowrap;
+    }
+    .tab-item:hover { color: var(--g800); }
+    .tab-item.active { color: #3C1053; border-bottom-color: #3C1053; }
+    .tab-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    /* ── PAGE HEADER ── */
+    .page-header { background: linear-gradient(160deg, #EDE8F5 0%, var(--bg) 70%); padding: 60px 28px 64px; }
+    .page-header-inner { max-width: 1440px; margin: 0 auto; text-align: center; }
+    .page-header h1 {
+      font-size: clamp(24px, 3vw, 34px); font-weight: 800;
+      color: #3C1053; letter-spacing: -.5px; margin-bottom: 8px;
+    }
+    .page-header h1 em { font-style: normal; }
+    .page-header p { font-size: 14.5px; color: var(--g600); line-height: 1.7; max-width: 680px; margin: 10px auto 0; }
+
+    /* ── MAIN LAYOUT ── */
+    .main-layout {
+      max-width: 1440px; margin: 0 auto; padding: 0 28px 72px;
+      display: grid; grid-template-columns: 272px 1fr;
+      gap: 24px; align-items: start;
+    }
+    .sidebar { position: sticky; top: calc(64px + 16px); }
+    .filter-panel {
+      background: var(--white); border: 1px solid var(--g200);
+      border-radius: var(--r); box-shadow: var(--sh);
+      padding: 20px; display: flex; flex-direction: column; gap: 16px;
+    }
+    .filter-panel-title {
+      font-size: 11px; font-weight: 800; letter-spacing: .8px;
+      text-transform: uppercase; color: var(--g400);
+      padding-bottom: 12px; border-bottom: 1px solid var(--g100);
+    }
+    .filter-group { display: none; flex-direction: column; gap: 16px; }
+    .filter-group.visible { display: flex; }
+
+    .fg { display: flex; flex-direction: column; gap: 6px; }
+    .fg label {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; letter-spacing: .6px;
+      text-transform: uppercase; color: var(--g600);
+    }
+    .fg-icon { width: 12px; height: 12px; flex-shrink: 0; color: var(--g600); }
+    .fg select {
+      appearance: none; -webkit-appearance: none;
+      border: 1.5px solid var(--g200); border-radius: var(--rs);
+      padding: 10px 36px 10px 14px; font-size: 13.5px; color: var(--g800); font-weight: 500;
+      background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%239aa3b8' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+      box-shadow: 0 1px 3px rgba(60,16,83,.05);
+      outline: none; cursor: pointer; transition: border-color .18s, box-shadow .18s; width: 100%;
+    }
+    .fg select:hover { border-color: var(--g400); }
+    .fg select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(123,63,171,.1); }
+
+    .date-btn {
+      display: flex; align-items: center; gap: 8px;
+      border: 1.5px solid var(--g200); border-radius: var(--rs);
+      padding: 10px 14px; font-size: 13.5px; color: var(--g400);
+      background: var(--white); cursor: pointer;
+      transition: border-color .18s, box-shadow .18s;
+      width: 100%; text-align: left; font-weight: 500;
+      box-shadow: 0 1px 3px rgba(60,16,83,.05);
+    }
+    .date-btn:hover { border-color: var(--g400); color: var(--g800); }
+    .date-btn.has-date { border-color: var(--blue); color: var(--navy); font-weight: 600; box-shadow: 0 0 0 3px rgba(123,63,171,.1); }
+    .date-btn svg.cal-icon { width: 14px; height: 14px; flex-shrink: 0; color: var(--g400); }
+    .date-btn.has-date svg.cal-icon { color: var(--blue); }
+    .date-btn .btn-lbl { flex: 1; }
+
+    .btn-reset {
+      border: 1.5px solid var(--navy); background: var(--navy);
+      color: #fff; border-radius: var(--rs);
+      padding: 10px 16px; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all .18s; width: 100%;
+    }
+    .btn-reset:hover { opacity: .85; }
+
+    /* ── CALENDAR ── */
+    .cal-wrap { position: relative; width: 100%; }
+    .cal-popup {
+      display: none; position: absolute; top: calc(100% + 6px); left: 0;
+      z-index: 300; background: var(--white); border: 1px solid var(--g200);
+      border-radius: var(--r); box-shadow: 0 8px 32px rgba(60,16,83,.14);
+      padding: 16px; width: 280px; user-select: none;
+    }
+    .cal-popup.open { display: block; }
+    .cal-step-hint {
+      font-size: 11px; font-weight: 600; padding: 5px 10px;
+      border-radius: 6px; margin-bottom: 12px; text-align: center;
+    }
+    .cal-step-hint.picking-start { background: #F5F5F5; color: #5C1F7A; }
+    .cal-step-hint.picking-end   { background: #E0E0E0; color: #3C1053; }
+    .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .cal-head span { font-size: 14px; font-weight: 700; color: var(--g800); }
+    .cal-nav {
+      background: none; border: none; width: 28px; height: 28px; border-radius: 50%;
+      cursor: pointer; font-size: 17px; color: var(--g600);
+      display: flex; align-items: center; justify-content: center; transition: background .15s;
+    }
+    .cal-nav:hover { background: var(--g100); color: var(--navy); }
+    .cal-wdays { display: grid; grid-template-columns: repeat(7,1fr); margin-bottom: 4px; }
+    .cal-wdays span { text-align: center; font-size: 10px; font-weight: 700; color: var(--g400); padding: 3px 0; }
+    .cal-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+    .cal-day {
+      background: none; border: none; aspect-ratio: 1; border-radius: 50%;
+      font-size: 12.5px; font-weight: 500; color: var(--g800);
+      cursor: pointer; transition: background .15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cal-day:hover:not(.empty) { background: var(--g100); }
+    .cal-day.today { color: var(--blue); font-weight: 700; }
+    .cal-day.range-start { background: var(--navy) !important; color: #fff !important; font-weight: 700; }
+    .cal-day.range-end   { background: var(--navy) !important; color: #fff !important; font-weight: 700; }
+    .cal-day.in-range    { background: #EDE8F5; color: var(--navy); border-radius: 0; }
+    .cal-day.empty { pointer-events: none; }
+    .cal-foot {
+      margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--g100);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .cal-foot .sel-lbl { font-size: 12px; color: var(--g600); }
+    .cal-foot .sel-lbl strong { color: var(--navy); }
+    .cal-foot .clr-btn { background: none; border: none; font-size: 12px; color: var(--g400); cursor: pointer; }
+    .cal-foot .clr-btn:hover { color: var(--g800); }
+
+    /* ── TOOLBAR ── */
+    .main-content { min-width: 0; }
+    .toolbar {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      border-bottom: 1px solid var(--g200);
+      margin-bottom: 24px; gap: 12px;
+    }
+    .view-toggle {
+      display: flex; gap: 3px; background: var(--g100);
+      padding: 4px; border-radius: var(--rs);
+    }
+    .vbtn {
+      border: none; background: transparent; width: 34px; height: 30px; border-radius: 6px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--g400); transition: all .18s;
+    }
+    .vbtn.active { background: var(--white); color: var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+    .vbtn svg { width: 15px; height: 15px; }
+
+    /* ── GRID ── */
+    #main-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+      gap: 20px; min-height: 200px;
+    }
+    #main-grid.list-view { grid-template-columns: 1fr; }
+
+    /* ── TOUR CARD ── */
+    .tour-card {
+      background: var(--white); border-radius: var(--r); box-shadow: var(--sh);
+      overflow: hidden; transition: transform .22s, box-shadow .22s;
+      display: flex; flex-direction: column; cursor: pointer;
+    }
+    .tour-card:hover { transform: translateY(-4px); box-shadow: var(--sh2); }
+    .list-view .tour-card { flex-direction: row; }
+    .list-view .tour-card .card-img { width: 220px; min-width: 220px; height: auto; align-self: stretch; }
+    /* image is absolute so it doesn't dictate row height — card height comes from the body,
+       keeping cards uniform whether or not an image (avatar) is present */
+    .list-view .tour-card .card-img img { position: absolute; inset: 0; }
+    .list-view .tour-card .card-body { padding: 18px 22px; }
+
+    .card-img { height: 188px; position: relative; overflow: hidden; flex-shrink: 0; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+    .tour-card:hover .card-img img { transform: scale(1.04); }
+    .card-img-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.04) 0%, rgba(0,0,0,.26) 100%);
+      pointer-events: none;
+    }
+    .card-img.cat-nature     { background: #d1fae5; }
+    .card-img.cat-city       { background: #e0e7ff; }
+    .card-img.cat-historical { background: #EDE0F5; }
+    .card-img.cat-cultural   { background: #fce7f3; }
+    .card-img.cat-adventure  { background: #ffedd5; }
+    .card-img.cat-coastal    { background: #cffafe; }
+    .card-img.type-hotel     { background: #e0e7ff; }
+    .card-img.type-hostel    { background: #d1fae5; }
+    .card-img.type-villa     { background: #fce7f3; }
+    .card-img.type-guesthouse{ background: #EDE0F5; }
+    .card-img.type-resort    { background: #cffafe; }
+    .card-img.type-lodge     { background: #dcfce7; }
+    .card-img.type-camp      { background: #ffedd5; }
+
+    /* Category badge — şəkil üzərində glass */
+    .badge-cat {
+      position: absolute; top: 12px; left: 12px;
+      font-size: 10px; font-weight: 700; letter-spacing: .6px;
+      text-transform: uppercase; padding: 5px 13px; border-radius: 20px;
+      background: rgba(255,255,255,.18);
+      backdrop-filter: blur(20px) saturate(220%);
+      -webkit-backdrop-filter: blur(20px) saturate(220%);
+      border: 1px solid rgba(255,255,255,.55);
+      box-shadow: 0 2px 10px rgba(0,0,0,.2),
+                  inset 0 1px 0 rgba(255,255,255,.65);
+      color: #fff;
+      text-shadow: 0 1px 5px rgba(0,0,0,.6);
+    }
+
+    /* Price badge — solid, yüksək kontrast, diqqəti çəkir */
+    .badge-price {
+      position: absolute; top: 12px; right: 12px;
+      font-size: 11px; font-weight: 700; padding: 5px 13px; border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.22);
+    }
+    .price-free { background: #FF595A; color: #fff; }
+    .price-paid { background: #FF595A; color: #fff; }
+
+    /* Days badge — dark glass, ikincil məlumat */
+    .badge-days {
+      position: absolute; bottom: 12px; right: 12px;
+      background: rgba(10,12,30,.48);
+      backdrop-filter: blur(12px) saturate(160%);
+      -webkit-backdrop-filter: blur(12px) saturate(160%);
+      border: 1px solid rgba(255,255,255,.18);
+      color: rgba(255,255,255,.92); font-size: 11px; font-weight: 700;
+      padding: 5px 11px; border-radius: 20px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .badge-days svg { width: 12px; height: 12px; opacity: .8; }
+
+    /* Stars badge — dark glass, sarı ulduz rəngi */
+    .badge-stars {
+      position: absolute; bottom: 12px; right: 12px;
+      background: rgba(10,12,30,.48);
+      backdrop-filter: blur(12px) saturate(160%);
+      -webkit-backdrop-filter: blur(12px) saturate(160%);
+      border: 1px solid rgba(255,255,255,.18);
+      color: #fbbf24; font-size: 12px; font-weight: 700;
+      padding: 5px 11px; border-radius: 20px; letter-spacing: 1px;
+    }
+
+    /* Guide avatar fallback (initials) */
+    .card-img.guide-img { background: linear-gradient(135deg,#7B3FAB,#3C1053); }
+    .avatar-fallback {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-size: 48px; font-weight: 800; color: #fff; letter-spacing: 1px;
+      background: linear-gradient(135deg,#7B3FAB,#3C1053);
+    }
+    .card-img img { position: relative; z-index: 1; }
+
+    /* Loading / spinner */
+    .loading-wrap {
+      grid-column: 1/-1; display: flex; flex-direction: column; align-items: center;
+      gap: 16px; padding: 80px 24px; color: var(--g400); font-size: 14px;
+    }
+    .spinner {
+      width: 42px; height: 42px; border: 4px solid var(--g200);
+      border-top-color: var(--blue); border-radius: 50%; animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .card-body { padding: 18px 20px 20px; flex: 1; display: flex; flex-direction: column; }
+    .card-title {
+      font-size: 15px; font-weight: 700; color: #3C1053;
+      margin-bottom: 12px; line-height: 1.42;
+      display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .card-meta { display: flex; flex-direction: column; gap: 7px; margin-top: auto; }
+    .meta-row { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--g600); }
+    .meta-row svg { width: 14px; height: 14px; flex-shrink: 0; color: var(--g600); }
+
+    /* ── GUIDE CARD specifics ── */
+    .guide-rating { display: flex; align-items: center; gap: 5px; margin-bottom: 10px; }
+    .stars-txt { color: #f59e0b; font-size: 13px; letter-spacing: 1px; }
+    .rating-num { font-size: 14px; font-weight: 700; color: var(--g800); }
+    .review-cnt { font-size: 12px; color: var(--g400); }
+    .guide-langs { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+    .lang-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: .4px;
+      padding: 3px 8px; border-radius: 6px;
+      background: var(--lblue); color: var(--blue);
+      border: 1px solid rgba(123,63,171,.25);
+    }
+
+    /* Certified badge */
+    .badge-cert {
+      position: absolute; bottom: 12px; left: 12px;
+      background: rgba(5,150,105,.85);
+      backdrop-filter: blur(12px) saturate(160%);
+      -webkit-backdrop-filter: blur(12px) saturate(160%);
+      border: 1px solid rgba(255,255,255,.35);
+      color: #fff; font-size: 10px; font-weight: 700; letter-spacing: .5px;
+      padding: 4px 10px 4px 7px; border-radius: 20px;
+      display: flex; align-items: center; gap: 5px;
+      text-shadow: 0 1px 4px rgba(0,0,0,.3);
+      box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    }
+    .badge-cert svg { width: 11px; height: 11px; flex-shrink: 0; }
+
+    /* Amenity tags */
+    .amenity-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+    .amenity-tag {
+      font-size: 11px; font-weight: 500;
+      padding: 3px 9px; border-radius: 6px;
+      background: var(--g100); color: var(--g600);
+      border: 1px solid var(--g200);
+    }
+
+    /* List view — boşluq düzəlişi */
+    .list-view .tour-card .card-body { justify-content: center; gap: 8px; }
+    .list-view .card-title { -webkit-line-clamp: 1; line-clamp: 1; margin-bottom: 0; }
+    .list-view .card-meta { margin-top: 0; }
+    .list-view .guide-rating { margin-bottom: 0; }
+    .list-view .guide-langs { margin-top: 0; }
+    .list-view .amenity-tags { margin-top: 0; }
+
+    /* ── PAGINATION ── */
+    .pagination {
+      display: flex; align-items: center; justify-content: center;
+      gap: 6px; margin-top: 32px; flex-wrap: wrap;
+    }
+    .pg-btn {
+      border: 1.5px solid var(--g200); background: var(--white);
+      color: var(--g600); border-radius: var(--rs); width: 38px; height: 38px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 500; cursor: pointer; transition: all .18s;
+    }
+    .pg-btn:hover:not(:disabled):not(.active) { border-color: var(--navy); color: var(--navy); }
+    .pg-btn.active { background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 700; }
+    .pg-btn:disabled { opacity: .35; cursor: default; }
+    .pg-btn.arrow { font-size: 18px; }
+    .pg-dots { color: var(--g400); font-size: 14px; display: flex; align-items: flex-end; padding-bottom: 4px; }
+
+    /* ── EMPTY ── */
+    .empty { grid-column: 1/-1; text-align: center; padding: 72px 24px; }
+    .empty .ico { font-size: 52px; margin-bottom: 18px; }
+    .empty h3 { font-size: 18px; color: var(--g800); margin-bottom: 8px; }
+    .empty p  { font-size: 14px; color: var(--g400); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--white); border-top: 1px solid var(--g200);
+      padding: 24px; text-align: center; font-size: 13px; color: var(--g400);
+    }
+    footer strong { color: var(--navy); }
+
+    /* ── KENDEGET LOGO ── */
+    .logo-yours { display: flex; align-items: center; text-decoration: none; }
+    .kg-logo { height: 32px; width: auto; display: block; }
+
+    /* ── NAV LINKS ── */
+    .nav-links { display: flex; align-items: center; gap: 2px; justify-content: center; }
+    .nav-link {
+      font-size: 13.5px; font-weight: 500; color: var(--g600);
+      padding: 8px 14px; border-radius: 8px;
+      text-decoration: none; transition: color .18s, background .18s; white-space: nowrap;
+    }
+    .nav-link:hover { color: var(--navy); background: var(--g100); }
+    .nav-link.active { color: var(--navy); font-weight: 600; }
+
+    /* ── HERO LOGOS ── */
+    .hero-logos { display: flex; align-items: center; justify-content: center; gap: 28px; margin: 36px auto 0; }
+    .hero-logos .logo-atb img { height: 44px; }
+    .hero-logos .vsep { width: 1px; height: 42px; background: var(--g200); }
+    .hero-logos .logo-p2 { display: flex; align-items: center; gap: 12px; }
+    .hero-logos .logo-p2 .mark {
+      width: 46px; height: 46px; background: var(--lblue); border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--blue); font-weight: 800; font-size: 13px; flex-shrink: 0;
+    }
+    .hero-logos .logo-p2 .wm { font-size: 17px; font-weight: 600; color: var(--g600); }
+    .hero-more-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      margin-top: 28px;
+      background: var(--navy); color: #fff;
+      border: none; border-radius: 10px;
+      padding: 11px 24px; font-size: 14px; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: opacity .18s;
+    }
+    .hero-more-btn:hover { opacity: .82; }
+    .hero-more-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ── HERO FEATURES ── */
+    .hero-features { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; max-width: 860px; margin: 0 auto; }
+    .hf-card {
+      background: var(--white); border: 1px solid var(--g200);
+      border-radius: 14px; padding: 24px 22px 22px;
+      cursor: pointer; transition: transform .22s, box-shadow .22s;
+      box-shadow: 0 1px 8px rgba(60,16,83,.07);
+    }
+    .hf-card:hover { transform: translateY(-3px); box-shadow: var(--sh2); }
+    .hf-icon-wrap {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 12px;
+    }
+    .hf-icon-wrap.c-blue   { background: #EDE0F5; color: #7B3FAB; }
+    .hf-icon-wrap.c-green  { background: #d1fae5; color: #059669; }
+    .hf-icon-wrap.c-purple { background: #ede9fe; color: #7c3aed; }
+    .hf-icon-wrap svg { width: 22px; height: 22px; }
+    .hf-num { font-size: 26px; font-weight: 800; color: var(--navy); line-height: 1; margin-bottom: 4px; }
+    .hf-title { font-size: 14px; font-weight: 700; color: var(--g800); margin-bottom: 7px; }
+    .hf-desc { font-size: 12.5px; color: var(--g600); line-height: 1.55; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .main-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .filter-panel { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+      .filter-panel-title { grid-column: 1/-1; }
+      .filter-group { display: none; }
+      .filter-group.visible { display: contents; }
+      .btn-reset-wrap { grid-column: 1/-1; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .nav-inner { gap: 8px; }
+      .yl-text { display: none; }
+      .tab-item { padding: 12px 14px; font-size: 13px; }
+      .main-layout { padding: 0 16px 48px; }
+      .page-header { padding: 40px 16px 44px; }
+      .list-view .tour-card { flex-direction: column; }
+      .list-view .tour-card .card-img { width: 100%; height: 190px; }
+      .cal-popup { left: auto; right: 0; width: 260px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a class="logo-yours" href="https://kendeget.com" target="_blank" rel="noopener">
+      <img src="kedenget-logo.svg" alt="kendeget" class="kg-logo"/>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="https://kendeget.com/about" target="_blank" rel="noopener">Haqqımızda</a>
+      <a class="nav-link" href="https://kendeget.com/rental-homes" target="_blank" rel="noopener">Evlər</a>
+      <a class="nav-link" href="https://kendeget.com/tour-guides" target="_blank" rel="noopener">Bələdçilər</a>
+      <a class="nav-link" href="https://kendeget.com/blogs" target="_blank" rel="noopener">Bloglar</a>
+    </div>
+    <div class="lang-wrap" id="lang-wrap">
+      <button class="lang-btn" id="lang-btn" type="button">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="10" cy="10" r="8"/>
+          <path d="M10 2c-2 2.5-3 5-3 8s1 5.5 3 8M10 2c2 2.5 3 5 3 8s-1 5.5-3 8M2 10h16"/>
+          <path d="M3 6.5h14M3 13.5h14"/>
+        </svg>
+        <span id="lang-current">AZ</span>
+        <svg class="lang-chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 1l4 4 4-4"/></svg>
+      </button>
+      <div class="lang-dropdown" id="lang-dropdown">
+        <button class="lang-opt active" data-lang="AZ"><span class="flag">🇦🇿</span> Azərbaycanca <span class="check">✓</span></button>
+        <button class="lang-opt" data-lang="EN"><span class="flag">🇬🇧</span> English <span class="check">✓</span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <h1 id="hero-title"></h1>
+    <p id="hero-sub"></p>
+
+    <!-- Partnership logos -->
+    <div class="hero-logos">
+      <a class="logo-atb" href="#"><img src="atb-logo.svg" alt="ATB"/></a>
+      <div class="vsep"></div>
+      <a class="logo-atb" href="https://kendeget.com" target="_blank" rel="noopener"><img src="kedenget-logo.svg" alt="kendeget"/></a>
+    </div>
+    <a class="hero-more-btn" href="https://www.tourismboard.az/az/page/1743-terefdas-inteqrasiya-proqrami" target="_blank" rel="noopener">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 3h3v3M13 3L8 8M6 4H3.5A1.5 1.5 0 002 5.5v7A1.5 1.5 0 003.5 14h7A1.5 1.5 0 0012 12.5V10"/></svg>
+      Ətraflı məlumat
+    </a>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="filter-panel">
+      <div class="filter-panel-title">Filterlər</div>
+
+      <!-- Location: shared -->
+      <div class="fg">
+        <label>
+          <svg class="fg-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7">
+            <path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6.2c0 3.8 4.5 8.3 4.5 8.3s4.5-4.5 4.5-8.3C12.5 3.5 10.5 1.5 8 1.5z"/>
+            <circle cx="8" cy="6" r="1.6"/>
+          </svg>
+          <span data-i18n="location">Məkan</span>
+        </label>
+        <select id="f-loc">
+          <option value="" data-i18n="allLoc">Bütün məkanlar</option>
+        </select>
+      </div>
+
+      <!-- HOUSES filters -->
+      <div class="filter-group visible" id="fg-houses">
+        <div class="fg">
+          <label>
+            <svg class="fg-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7">
+              <circle cx="6" cy="4.5" r="2.5"/>
+              <path d="M1 13.5c0-2.8 2.2-5 5-5s5 2.2 5 5"/>
+              <circle cx="12" cy="4.5" r="2"/>
+              <path d="M12 9.5c1.6.3 2.8 1.7 3 3.5"/>
+            </svg>
+            <span data-i18n="people">Adam sayı</span>
+          </label>
+          <select id="f-people">
+            <option value="" data-i18n="allPeople">Hamısı</option>
+            <option value="2">2+ nəfər</option>
+            <option value="4">4+ nəfər</option>
+            <option value="6">6+ nəfər</option>
+            <option value="8">8+ nəfər</option>
+            <option value="10">10+ nəfər</option>
+            <option value="12">12+ nəfər</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>
+            <svg class="fg-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M4 2v12M4 14l-2.5-2.5M4 2l2.5 2.5"/>
+              <path d="M12 14V2M12 2l2.5 2.5M12 14l-2.5-2.5"/>
+            </svg>
+            <span data-i18n="sortBy">Sıralama</span>
+          </label>
+          <select id="f-sort">
+            <option value="">Tövsiyə olunan</option>
+            <option value="price-asc">Qiymət: ucuzdan</option>
+            <option value="price-desc">Qiymət: bahadan</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- GUIDES filters -->
+      <div class="filter-group" id="fg-guides">
+        <div class="fg">
+          <label>
+            <svg class="fg-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7">
+              <circle cx="8" cy="8" r="6.5"/>
+              <path d="M8 2c-2 2.5-3 4-3 6s1 3.5 3 6M8 2c2 2.5 3 4 3 6s-1 3.5-3 6M2 8h12"/>
+            </svg>
+            <span data-i18n="language">Dil</span>
+          </label>
+          <select id="f-lang">
+            <option value="" data-i18n="allPeople">Hamısı</option>
+            <option value="AZ">Azərbaycanca</option>
+            <option value="EN">English</option>
+            <option value="RU">Русский</option>
+            <option value="TR">Türkçe</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Reset -->
+      <div class="btn-reset-wrap">
+        <button class="btn-reset" id="btn-reset" data-i18n="reset">Sıfırla</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="toolbar">
+      <!-- Underline tabs -->
+      <div class="tab-bar">
+        <button class="tab-item active" data-section="houses">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M2 7l6-5 6 5"/><path d="M3.5 6.5V14h9V6.5"/>
+          </svg>
+          <span data-i18n="tabHouses">Evlər</span>
+        </button>
+        <button class="tab-item" data-section="guides">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="8" cy="5.5" r="3"/><path d="M2 14.5c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+          </svg>
+          <span data-i18n="tabGuides">Bələdçilər</span>
+        </button>
+      </div>
+      <div class="view-toggle">
+        <button class="vbtn active" id="btn-grid" title="Grid">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="1" y="1" width="6" height="6" rx="1.2"/>
+            <rect x="9" y="1" width="6" height="6" rx="1.2"/>
+            <rect x="1" y="9" width="6" height="6" rx="1.2"/>
+            <rect x="9" y="9" width="6" height="6" rx="1.2"/>
+          </svg>
+        </button>
+        <button class="vbtn" id="btn-list" title="List">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <line x1="1" y1="4" x2="15" y2="4"/>
+            <line x1="1" y1="8" x2="15" y2="8"/>
+            <line x1="1" y1="12" x2="15" y2="12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="main-grid"></div>
+    <div class="pagination" id="pagination"></div>
+  </main>
+
+</div>
+
+<footer>&copy; 2026 <strong>ATB Partners</strong> &amp; <strong>kendeget</strong></footer>
+
+<script>
+/* ── i18n ── */
+const T = {
+  AZ: {
+    tabGuides: 'Bələdçilər', tabHouses: 'Evlər', sortBy: 'Sıralama',
+    heroTitle: { tours: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı', guides: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı', stays: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı' },
+    heroSub:   { tours: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı seçilmiş turizm sənayesi nümayəndələrini Azerbaijan.travel platforması ilə bir araya gətirərək turistlər üçün məlumat əldə etmə və rezervasiya prosesini daha rahat edir. Proqrama qoşulan tərəfdaşlar öz rezervasiya sistemləri vasitəsilə turlar, təcrübələr və yerləşmə xidmətləri üzrə birbaşa rezervasiya imkanı təqdim edirlər. Bu inteqrasiya sayəsində siz seçdiyiniz xidməti müvafiq xidmət təminatçısı üzərindən rahat şəkildə rezervasiya edə bilərsiniz. Rezervasiya, təsdiqləmə, ödəniş və xidmətlə bağlı digər məsələlər birbaşa seçilmiş turizm məhsulunu təqdim edən xidmət təminatçısı tərəfindən idarə olunur.', guides: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı seçilmiş turizm sənayesi nümayəndələrini Azerbaijan.travel platforması ilə bir araya gətirərək turistlər üçün məlumat əldə etmə və rezervasiya prosesini daha rahat edir. Proqrama qoşulan tərəfdaşlar öz rezervasiya sistemləri vasitəsilə turlar, təcrübələr və yerləşmə xidmətləri üzrə birbaşa rezervasiya imkanı təqdim edirlər. Bu inteqrasiya sayəsində siz seçdiyiniz xidməti müvafiq xidmət təminatçısı üzərindən rahat şəkildə rezervasiya edə bilərsiniz. Rezervasiya, təsdiqləmə, ödəniş və xidmətlə bağlı digər məsələlər birbaşa seçilmiş turizm məhsulunu təqdim edən xidmət təminatçısı tərəfindən idarə olunur.', stays: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı seçilmiş turizm sənayesi nümayəndələrini Azerbaijan.travel platforması ilə bir araya gətirərək turistlər üçün məlumat əldə etmə və rezervasiya prosesini daha rahat edir. Proqrama qoşulan tərəfdaşlar öz rezervasiya sistemləri vasitəsilə turlar, təcrübələr və yerləşmə xidmətləri üzrə birbaşa rezervasiya imkanı təqdim edirlər. Bu inteqrasiya sayəsində siz seçdiyiniz xidməti müvafiq xidmət təminatçısı üzərindən rahat şəkildə rezervasiya edə bilərsiniz. Rezervasiya, təsdiqləmə, ödəniş və xidmətlə bağlı digər məsələlər birbaşa seçilmiş turizm məhsulunu təqdim edən xidmət təminatçısı tərəfindən idarə olunur.' },
+    location: 'Məkan', allLoc: 'Bütün məkanlar',
+    category: 'Kateqoriya', allCat: 'Hamısı',
+    speciality: 'İxtisas', language: 'Dil',
+    stayType: 'Növ', starsFilter: 'Ulduz',
+    dateRange: 'Tarix aralığı',
+    pickStart: '▸ Başlama tarixini seçin', pickEnd: '▸ Bitmə tarixini seçin',
+    people: 'Adam sayı', allPeople: 'Hamısı',
+    reset: 'Sıfırla', selected: 'Seçildi', clear: 'Sil',
+    startsOn: 'başlayır',
+    emptyTitle: 'Nəticə tapılmadı', emptyDesc: 'Filterləri dəyişdirərək yenidən axtarın',
+    nature:'Təbiət', city:'Şəhər', historical:'Tarixi',
+    cultural:'Mədəni', adventure:'Macəra', coastal:'Sahil',
+    hotel:'Otel', hostel:'Hostel', villa:'Villa',
+    guesthouse:'Qonaq evi', resort:'Kurort', lodge:'Dağ evi', camp:'Düşərgə',
+    months:['Yanvar','Fevral','Mart','Aprel','May','İyun','İyul','Avqust','Sentyabr','Oktyabr','Noyabr','Dekabr'],
+    wdays: ['B.e','Ç.a','Ç','C.a','C','Ş','B'],
+    person: 'nəfər', yearExp: 'il təcrübə', reviews: 'rəy', perNight: '/gecə',
+    certified: 'Sertifikatlı',
+  },
+  EN: {
+    tabGuides: 'Guides', tabHouses: 'Houses', sortBy: 'Sort',
+    heroTitle: { tours: 'Azerbaijan.travel Partner Integration Programme', guides: 'Azerbaijan.travel Partner Integration Programme', stays: 'Azerbaijan.travel Partner Integration Programme' },
+    heroSub:   { tours: 'The Azerbaijan.travel Partner Integration Programme brings selected tourism industry representatives together with the Azerbaijan.travel platform, making the process of finding information and booking services easier for travellers. Partners participating in the programme offer direct booking opportunities for tours, experiences, and accommodation services through their own reservation systems. Through this integration, you can conveniently reserve your selected service directly through the relevant service provider. All bookings, confirmations, payments, and other service-related matters are handled directly by the service provider offering the selected tourism product.', guides: 'The Azerbaijan.travel Partner Integration Programme brings selected tourism industry representatives together with the Azerbaijan.travel platform, making the process of finding information and booking services easier for travellers. Partners participating in the programme offer direct booking opportunities for tours, experiences, and accommodation services through their own reservation systems. Through this integration, you can conveniently reserve your selected service directly through the relevant service provider. All bookings, confirmations, payments, and other service-related matters are handled directly by the service provider offering the selected tourism product.', stays: 'The Azerbaijan.travel Partner Integration Programme brings selected tourism industry representatives together with the Azerbaijan.travel platform, making the process of finding information and booking services easier for travellers. Partners participating in the programme offer direct booking opportunities for tours, experiences, and accommodation services through their own reservation systems. Through this integration, you can conveniently reserve your selected service directly through the relevant service provider. All bookings, confirmations, payments, and other service-related matters are handled directly by the service provider offering the selected tourism product.' },
+    location: 'Location', allLoc: 'All locations',
+    category: 'Category', allCat: 'All',
+    speciality: 'Speciality', language: 'Language',
+    stayType: 'Type', starsFilter: 'Stars',
+    dateRange: 'Date range',
+    pickStart: '▸ Select start date', pickEnd: '▸ Select end date',
+    people: 'People', allPeople: 'All',
+    reset: 'Reset', selected: 'Selected', clear: 'Clear',
+    startsOn: 'starts',
+    emptyTitle: 'No results found', emptyDesc: 'Try adjusting the filters',
+    nature:'Nature', city:'City', historical:'Historical',
+    cultural:'Cultural', adventure:'Adventure', coastal:'Coastal',
+    hotel:'Hotel', hostel:'Hostel', villa:'Villa',
+    guesthouse:'Guesthouse', resort:'Resort', lodge:'Lodge', camp:'Camp',
+    months:['January','February','March','April','May','June','July','August','September','October','November','December'],
+    wdays: ['Mo','Tu','We','Th','Fr','Sa','Su'],
+    person: 'people', yearExp: 'yr exp.', reviews: 'reviews', perNight: '/night',
+    certified: 'Certified',
+  }
+};
+let lang = 'AZ';
+const t = () => T[lang];
+
+/* ── CONFIG ── */
+const API_BASE = 'https://admin.kendeget.com/api';
+const STORAGE  = 'https://admin.kendeget.com/storage/';
+const LANG_LABELS = { az:'AZ', en:'EN', ru:'RU', tr:'TR' };
+
+/* ── DATA STORES ── */
+let houses = [];
+let guides = [];
+let regionsList = [];   // [{id, title}] from /api/regions
+let dataReady = false;
+
+/* ── STATE ── */
+let activeSection = 'houses';
+const PER_PAGE = 9;
+const state = {
+  regionId: '',          // shared — sent to backend as ?regions={id}
+  houses: { people:'', sort:'', page:1 },
+  guides: { lang:'', page:1 },
+};
+
+/* ── HELPERS ── */
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function num(v){ const n=parseFloat(v); return isNaN(n)?0:n; }
+function initialsOf(name){ const p=(name||'').trim().split(/\s+/).filter(Boolean); return ((p[0]||'?')[0]+(p[1]?p[1][0]:'')).toUpperCase(); }
+
+/* ── SVG ICONS ── */
+const IC = {
+  pin:`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6.2c0 3.8 4.5 8.3 4.5 8.3s4.5-4.5 4.5-8.3C12.5 3.5 10.5 1.5 8 1.5z"/><circle cx="8" cy="6" r="1.6"/></svg>`,
+  ppl:`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="5" r="3"/><path d="M2.5 14c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5"/></svg>`,
+  home:`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7l6-5 6 5"/><path d="M3.5 6.5V14h9V6.5"/></svg>`,
+  star:`<svg viewBox="0 0 16 16" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"><path d="M8 1l1.8 3.6L14 5.6l-3 2.9.7 4.1L8 10.5l-3.7 2.1.7-4.1-3-2.9 4.2-.6z"/></svg>`,
+};
+
+/* ── FETCH & BUILD ── */
+async function fetchRegions(){
+  const res = await fetch(`${API_BASE}/regions`);
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  const j = await res.json();
+  regionsList = (j.data || [])
+    .map(r => ({ id: r.id, title: r.title || '' }))
+    .sort((a,b) => a.title.localeCompare(b.title,'az'));
+}
+
+async function fetchAllListings(){
+  const regionParam = state.regionId ? `&regions=${encodeURIComponent(state.regionId)}` : '';
+  let page=1, last=1; const all=[];
+  do {
+    const res = await fetch(`${API_BASE}/listings?status=accepted&page=${page}&per_page=50${regionParam}`);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const j = await res.json(); const d = j.data || {};
+    all.push(...(d.data||[]));
+    last = d.last_page || 1; page++;
+  } while(page<=last);
+  return all;
+}
+
+/* Re-fetch listings from backend (used when region filter changes) */
+async function reloadListings(){
+  grid.innerHTML = `<div class="loading-wrap"><div class="spinner"></div><div>${lang==='AZ'?'Yüklənir…':'Loading…'}</div></div>`;
+  pagEl.innerHTML = '';
+  try {
+    const listings = await fetchAllListings();
+    buildData(listings);
+    renderCards();
+  } catch(err){
+    grid.innerHTML = `<div class="empty"><div class="ico">⚠️</div><h3>${lang==='AZ'?'Məlumat yüklənmədi':'Could not load data'}</h3><p>${esc(err.message)}</p></div>`;
+  }
+}
+
+function buildData(listings){
+  houses = listings.map(l => ({
+    id: l.id,
+    title: l.title || '',
+    region: (l.region && l.region.title) || '',
+    image: (l.images && l.images.length) ? STORAGE + l.images[0] : '',
+    price: Math.round(num(l.price)),
+    priceUsd: Math.round(num(l.price_usd)),
+    capacity: l.capacity || 0,
+    rating: num(l.rating),
+    reviewCount: l.reviews_count || 0,
+    host: (l.user && l.user.name) || '',
+  }));
+
+  const gmap = new Map();
+  listings.forEach(l => {
+    const u = l.user; if(!u) return;
+    if(!gmap.has(u.id)){
+      gmap.set(u.id, {
+        id: u.id,
+        name: u.name || '',
+        bio: u.bio || '',
+        avatar: u.avatar ? STORAGE + u.avatar : '',
+        region: (u.region && u.region.title) || '',
+        languages: Array.isArray(u.languages) ? u.languages.map(c => LANG_LABELS[c] || String(c).toUpperCase()) : [],
+        rating: num(u.rating),
+        reviewCount: u.reviews_count || 0,
+        houseCount: 0,
+      });
+    }
+    gmap.get(u.id).houseCount++;
+  });
+  guides = [...gmap.values()];
+}
+
+/* ── FILTER ── */
+function getFiltered(){
+  if(activeSection==='houses'){
+    const s = state.houses;
+    let arr = houses.filter(x => {
+      if(s.people && x.capacity < parseInt(s.people)) return false;
+      return true;
+    });
+    if(s.sort==='price-asc')  arr = arr.slice().sort((a,b)=>a.price-b.price);
+    else if(s.sort==='price-desc') arr = arr.slice().sort((a,b)=>b.price-a.price);
+    return arr;
+  }
+  const s = state.guides;
+  return guides.filter(x => {
+    if(s.lang && !x.languages.includes(s.lang)) return false;
+    return true;
+  });
+}
+
+/* ── RENDER ── */
+const grid  = document.getElementById('main-grid');
+const pagEl = document.getElementById('pagination');
+
+function houseCard(h){
+  const priceVal = (lang==='EN' && h.priceUsd) ? `$${h.priceUsd}` : `₼${h.price}`;
+  const img = h.image
+    ? `<img src="${esc(h.image)}" alt="${esc(h.title)}" loading="lazy" onerror="this.style.display='none'"/>`
+    : '';
+  const last = h.rating>0
+    ? `<div class="meta-row">${IC.star} ${h.rating.toFixed(1)} <span style="color:var(--g400)">(${h.reviewCount} ${t().reviews})</span></div>`
+    : (h.host ? `<div class="meta-row">${IC.ppl} ${esc(h.host)}</div>` : '');
+  return `
+    <div class="tour-card" onclick="window.open('https://kendeget.com/home/${h.id}','_blank','noopener')">
+      <div class="card-img type-villa">
+        ${img}
+        <div class="card-img-ov"></div>
+        ${h.region ? `<span class="badge-cat">${esc(h.region)}</span>` : ''}
+        <span class="badge-price price-paid">${priceVal}<span style="font-weight:500;opacity:.9">${t().perNight}</span></span>
+        ${h.capacity ? `<span class="badge-days">${IC.ppl} ${h.capacity} ${t().person}</span>` : ''}
+      </div>
+      <div class="card-body">
+        <div class="card-title">${esc(h.title)}</div>
+        <div class="card-meta">
+          ${h.region ? `<div class="meta-row">${IC.pin} ${esc(h.region)}</div>` : ''}
+          <div class="meta-row">${IC.ppl} ${h.capacity ? `max ${h.capacity} ${t().person}` : (lang==='AZ' ? 'Adam sayı qeyd edilməyib' : 'Capacity not specified')}</div>
+          ${last}
+        </div>
+      </div>
+    </div>`;
+}
+
+function guideCard(g){
+  const img = g.avatar
+    ? `<img src="${esc(g.avatar)}" alt="${esc(g.name)}" loading="lazy" onerror="this.style.display='none'"/>`
+    : '';
+  const ratingRow = g.rating>0
+    ? `<div class="guide-rating"><span class="stars-txt">${'★'.repeat(Math.round(g.rating))}</span><span class="rating-num">${g.rating.toFixed(1)}</span><span class="review-cnt">(${g.reviewCount} ${t().reviews})</span></div>`
+    : '';
+  const langs = g.languages.length
+    ? `<div class="guide-langs">${g.languages.map(l=>`<span class="lang-tag">${esc(l)}</span>`).join('')}</div>`
+    : '';
+  const houseLbl = lang==='AZ' ? 'ev' : (g.houseCount===1 ? 'house' : 'houses');
+  return `
+    <div class="tour-card" onclick="window.open('https://kendeget.com/guide/${g.id}','_blank','noopener')">
+      <div class="card-img guide-img">
+        <div class="avatar-fallback">${esc(initialsOf(g.name))}</div>
+        ${img}
+        <div class="card-img-ov"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${esc(g.name)}</div>
+        ${ratingRow}
+        <div class="card-meta">
+          ${g.region ? `<div class="meta-row">${IC.pin} ${esc(g.region)}</div>` : ''}
+          <div class="meta-row">${IC.home} ${g.houseCount} ${houseLbl}</div>
+        </div>
+        ${langs}
+      </div>
+    </div>`;
+}
+
+function renderCards(){
+  if(!dataReady) return;
+  const filtered = getFiltered();
+  const total = filtered.length;
+  const pages = Math.ceil(total / PER_PAGE) || 1;
+  const st = state[activeSection];
+  if(st.page > pages) st.page = 1;
+
+  if(!total){
+    grid.innerHTML = `<div class="empty"><div class="ico">🔍</div><h3>${t().emptyTitle}</h3><p>${t().emptyDesc}</p></div>`;
+    renderPagination(0,1); return;
+  }
+  const slice = filtered.slice((st.page-1)*PER_PAGE, st.page*PER_PAGE);
+  const fn = activeSection==='houses' ? houseCard : guideCard;
+  grid.innerHTML = slice.map(fn).join('');
+  renderPagination(total, pages);
+}
+
+/* ── PAGINATION ── */
+function renderPagination(total, pages){
+  if(pages <= 1){ pagEl.innerHTML = ''; return; }
+  const cur   = state[activeSection].page;
+  const range = buildRange(cur, pages);
+  let html = `<button class="pg-btn arrow" ${cur===1?'disabled':''} data-pg="${cur-1}">‹</button>`;
+  range.forEach(item => {
+    if(item==='…') html += `<span class="pg-dots">…</span>`;
+    else html += `<button class="pg-btn${item===cur?' active':''}" data-pg="${item}">${item}</button>`;
+  });
+  html += `<button class="pg-btn arrow" ${cur===pages?'disabled':''} data-pg="${cur+1}">›</button>`;
+  pagEl.innerHTML = html;
+  pagEl.querySelectorAll('.pg-btn[data-pg]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state[activeSection].page = +btn.dataset.pg;
+      renderCards();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+}
+function buildRange(cur, total){
+  if(total<=7) return Array.from({length:total},(_,i)=>i+1);
+  if(cur<=4)       return [1,2,3,4,5,'…',total];
+  if(cur>=total-3) return [1,'…',total-4,total-3,total-2,total-1,total];
+  return [1,'…',cur-1,cur,cur+1,'…',total];
+}
+
+/* ── SECTION SWITCH ── */
+function switchSection(section){
+  activeSection = section;
+  document.querySelectorAll('.tab-item').forEach(el => el.classList.toggle('active', el.dataset.section === section));
+  document.getElementById('fg-houses').classList.toggle('visible', section === 'houses');
+  document.getElementById('fg-guides').classList.toggle('visible', section === 'guides');
+  updateHeader();
+  renderCards();
+}
+
+function updateHeader(){
+  const ht = t().heroTitle, hs = t().heroSub;
+  document.getElementById('hero-title').innerHTML = typeof ht==='string' ? ht : (ht[activeSection] || ht.guides || Object.values(ht)[0]);
+  document.getElementById('hero-sub').innerHTML  = typeof hs==='string' ? hs : (hs[activeSection] || hs.guides || Object.values(hs)[0]);
+}
+
+/* ── REGIONS DROPDOWN ── */
+function populateRegions(){
+  const sel = document.getElementById('f-loc');
+  sel.innerHTML = `<option value="">${t().allLoc}</option>` +
+    regionsList.map(r => `<option value="${r.id}">${esc(r.title)}</option>`).join('');
+  sel.value = state.regionId;
+}
+
+/* ── FILTER EVENTS ── */
+document.getElementById('f-loc').addEventListener('change', e=>{
+  state.regionId = e.target.value;        // region id → backend ?regions={id}
+  state.houses.page = 1; state.guides.page = 1;
+  reloadListings();                        // re-query backend
+});
+document.getElementById('f-people').addEventListener('change', e=>{ state.houses.people=e.target.value; state.houses.page=1; renderCards(); });
+document.getElementById('f-sort').addEventListener('change', e=>{ state.houses.sort=e.target.value; state.houses.page=1; renderCards(); });
+document.getElementById('f-lang').addEventListener('change', e=>{ state.guides.lang=e.target.value; state.guides.page=1; renderCards(); });
+
+/* ── RESET ── */
+document.getElementById('btn-reset').addEventListener('click', ()=>{
+  const hadRegion = state.regionId !== '';
+  state.regionId = '';
+  Object.assign(state.houses, {people:'',sort:'',page:1});
+  Object.assign(state.guides, {lang:'',page:1});
+  document.getElementById('f-loc').value='';
+  document.getElementById('f-people').value='';
+  document.getElementById('f-sort').value='';
+  document.getElementById('f-lang').value='';
+  if(hadRegion) reloadListings(); else renderCards();
+});
+
+/* ── SUBNAV TABS ── */
+document.querySelectorAll('.tab-item').forEach(btn => {
+  btn.addEventListener('click', ()=> switchSection(btn.dataset.section));
+});
+
+/* ── VIEW TOGGLE ── */
+document.getElementById('btn-grid').addEventListener('click',()=>{
+  grid.classList.remove('list-view');
+  document.getElementById('btn-grid').classList.add('active');
+  document.getElementById('btn-list').classList.remove('active');
+});
+document.getElementById('btn-list').addEventListener('click',()=>{
+  grid.classList.add('list-view');
+  document.getElementById('btn-list').classList.add('active');
+  document.getElementById('btn-grid').classList.remove('active');
+});
+
+/* ── LANGUAGE ── */
+function applyLang(){
+  updateHeader();
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = t()[el.dataset.i18n];
+    if(typeof v === 'string') el.textContent = v;
+  });
+  const locSel = document.getElementById('f-loc');
+  if(locSel.options[0]) locSel.options[0].textContent = t().allLoc;
+  const pSel = document.getElementById('f-people');
+  pSel.options[0].textContent = t().allPeople;
+  for(let i=1;i<pSel.options.length;i++) pSel.options[i].textContent = `${pSel.options[i].value}+ ${t().person}`;
+  document.getElementById('f-lang').options[0].textContent = t().allPeople;
+  const sSel = document.getElementById('f-sort');
+  sSel.options[0].textContent = lang==='AZ' ? 'Tövsiyə olunan' : 'Recommended';
+  sSel.options[1].textContent = lang==='AZ' ? 'Qiymət: ucuzdan' : 'Price: low to high';
+  sSel.options[2].textContent = lang==='AZ' ? 'Qiymət: bahadan' : 'Price: high to low';
+  document.getElementById('lang-current').textContent = lang;
+  if(regionsList.length) populateRegions();
+  renderCards();
+}
+
+const langWrap = document.getElementById('lang-wrap');
+document.getElementById('lang-btn').addEventListener('click', e=>{ e.stopPropagation(); langWrap.classList.toggle('open'); });
+document.getElementById('lang-dropdown').querySelectorAll('.lang-opt').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    lang = btn.dataset.lang;
+    document.querySelectorAll('.lang-opt').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    langWrap.classList.remove('open');
+    applyLang();
+  });
+});
+document.addEventListener('click', e=>{ if(!langWrap.contains(e.target)) langWrap.classList.remove('open'); });
+
+/* ── INIT ── */
+async function init(){
+  applyLang();
+  grid.innerHTML = `<div class="loading-wrap"><div class="spinner"></div><div>${lang==='AZ'?'Yüklənir…':'Loading…'}</div></div>`;
+  // Regions dropdown (independent — don't block listings if it fails)
+  fetchRegions().then(populateRegions).catch(()=>{});
+  try {
+    const listings = await fetchAllListings();
+    buildData(listings);
+    dataReady = true;
+    renderCards();
+  } catch(err){
+    grid.innerHTML = `<div class="empty"><div class="ico">⚠️</div><h3>${lang==='AZ'?'Məlumat yüklənmədi':'Could not load data'}</h3><p>${esc(err.message)}</p></div>`;
+  }
+}
+init();
+</script>
+</body>
+</html>
