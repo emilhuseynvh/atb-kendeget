@@ -15,6 +15,7 @@
       --sh2: 0 10px 36px rgba(0,0,0,.12);
       --r: 13px; --rs: 8px;
     }
+    html, body { overflow-x: hidden; max-width: 100%; }
     body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--g800); min-height: 100vh; }
 
     /* ── NAVBAR ── */
@@ -223,7 +224,7 @@
 
     /* ── GRID ── */
     #main-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 272px), 1fr));
       gap: 20px; min-height: 200px;
     }
     #main-grid.list-view { grid-template-columns: 1fr; }
@@ -236,13 +237,15 @@
     }
     .tour-card:hover { transform: translateY(-4px); box-shadow: var(--sh2); }
     .list-view .tour-card { flex-direction: row; }
-    .list-view .tour-card .card-img { width: 220px; min-width: 220px; height: auto; align-self: stretch; }
+    .list-view .tour-card .card-img { width: 220px; min-width: 220px; height: auto; aspect-ratio: auto; align-self: stretch; }
     /* image is absolute so it doesn't dictate row height — card height comes from the body,
        keeping cards uniform whether or not an image (avatar) is present */
     .list-view .tour-card .card-img img { position: absolute; inset: 0; }
     .list-view .tour-card .card-body { padding: 18px 22px; }
 
     .card-img { height: 188px; position: relative; overflow: hidden; flex-shrink: 0; }
+    /* guides: slightly taller (portrait) but less than a full 4:5 */
+    #main-grid:not(.list-view) .card-img.guide-img { height: auto; aspect-ratio: 1 / 1; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
     .tour-card:hover .card-img img { transform: scale(1.04); }
     .card-img-ov {
@@ -348,6 +351,12 @@
     .stars-txt { color: #f59e0b; font-size: 13px; letter-spacing: 1px; }
     .rating-num { font-size: 14px; font-weight: 700; color: var(--g800); }
     .review-cnt { font-size: 12px; color: var(--g400); }
+    .guide-bio {
+      font-size: 12.5px; color: var(--g600); line-height: 1.5; margin-bottom: 10px;
+      display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .list-view .guide-bio { -webkit-line-clamp: 2; margin-bottom: 0; }
     .guide-langs { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
     .lang-tag {
       font-size: 10px; font-weight: 700; letter-spacing: .4px;
@@ -433,7 +442,7 @@
     .nav-link.active { color: var(--navy); font-weight: 600; }
 
     /* ── HERO LOGOS ── */
-    .hero-logos { display: flex; align-items: center; justify-content: center; gap: 28px; margin: 36px auto 0; }
+    .hero-logos { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 20px 28px; margin: 36px auto 0; }
     .hero-logos .logo-atb img { height: 44px; }
     .hero-logos .vsep { width: 1px; height: 42px; background: var(--g200); }
     .hero-logos .logo-p2 { display: flex; align-items: center; gap: 12px; }
@@ -490,14 +499,22 @@
       .nav-links { display: none; }
     }
     @media (max-width: 600px) {
-      .nav-inner { gap: 8px; }
-      .yl-text { display: none; }
+      .nav-inner { gap: 8px; padding: 0 16px; }
+      .kg-logo { height: 26px; }
       .tab-item { padding: 12px 14px; font-size: 13px; }
+      .tab-item svg { display: none; }
+      .view-toggle { display: none; }
       .main-layout { padding: 0 16px 48px; }
       .page-header { padding: 40px 16px 44px; }
+      .hero-logos { gap: 16px 20px; margin-top: 26px; }
+      .hero-logos .logo-atb img { height: 34px; }
+      .hero-logos .vsep { height: 32px; }
       .list-view .tour-card { flex-direction: column; }
-      .list-view .tour-card .card-img { width: 100%; height: 190px; }
-      .cal-popup { left: auto; right: 0; width: 260px; }
+      .list-view .tour-card .card-img { width: 100%; height: 190px; aspect-ratio: auto; }
+    }
+    @media (max-width: 380px) {
+      .toolbar { flex-wrap: wrap; }
+      .lang-btn { padding: 7px 10px; }
     }
   </style>
 </head>
@@ -617,17 +634,15 @@
         <div class="fg">
           <label>
             <svg class="fg-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7">
-              <circle cx="8" cy="8" r="6.5"/>
-              <path d="M8 2c-2 2.5-3 4-3 6s1 3.5 3 6M8 2c2 2.5 3 4 3 6s-1 3.5-3 6M2 8h12"/>
+              <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1.2"/>
+              <rect x="9" y="1.5" width="5.5" height="5.5" rx="1.2"/>
+              <rect x="1.5" y="9" width="5.5" height="5.5" rx="1.2"/>
+              <rect x="9" y="9" width="5.5" height="5.5" rx="1.2"/>
             </svg>
-            <span data-i18n="language">Dil</span>
+            <span data-i18n="category">Kateqoriya</span>
           </label>
-          <select id="f-lang">
-            <option value="" data-i18n="allPeople">Hamısı</option>
-            <option value="AZ">Azərbaycanca</option>
-            <option value="EN">English</option>
-            <option value="RU">Русский</option>
-            <option value="TR">Türkçe</option>
+          <select id="f-gcat">
+            <option value="" data-i18n="allCat">Hamısı</option>
           </select>
         </div>
       </div>
@@ -739,7 +754,6 @@ const t = () => T[lang];
 /* ── CONFIG ── */
 const API_BASE = 'https://admin.kendeget.com/api';
 const STORAGE  = 'https://admin.kendeget.com/storage/';
-const LANG_LABELS = { az:'AZ', en:'EN', ru:'RU', tr:'TR' };
 
 /* ── DATA STORES ── */
 let houses = [];
@@ -753,8 +767,20 @@ const PER_PAGE = 9;
 const state = {
   regionId: '',          // shared — sent to backend as ?regions={id}
   houses: { people:'', sort:'', page:1 },
-  guides: { lang:'', page:1 },
+  guides: { cat:'', page:1 },
 };
+let categoriesList = [];   // union of guide categories (for the İxtisas filter)
+
+/* ── CATEGORY LABELS (guide speciality) ── */
+const CAT_LABELS = {
+  gastronomy:{AZ:'Qastronomiya',EN:'Gastronomy'}, camping:{AZ:'Kempinq',EN:'Camping'},
+  trekking:{AZ:'Trekkinq',EN:'Trekking'}, hiking:{AZ:'Piyada gəzinti',EN:'Hiking'},
+  mountain:{AZ:'Dağ',EN:'Mountain'}, nature:{AZ:'Təbiət',EN:'Nature'},
+  city:{AZ:'Şəhər',EN:'City'}, historical:{AZ:'Tarixi',EN:'Historical'},
+  cultural:{AZ:'Mədəni',EN:'Cultural'}, adventure:{AZ:'Macəra',EN:'Adventure'},
+  coastal:{AZ:'Sahil',EN:'Coastal'},
+};
+function catLabel(c){ const m = CAT_LABELS[c]; return m ? (m[lang]||m.AZ) : c; }
 
 /* ── HELPERS ── */
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -792,20 +818,34 @@ async function fetchAllListings(){
   return all;
 }
 
-/* Re-fetch listings from backend (used when region filter changes) */
-async function reloadListings(){
+async function fetchAllPartners(){
+  const regionParam = state.regionId ? `&regions=${encodeURIComponent(state.regionId)}` : '';
+  let page=1, last=1; const all=[];
+  do {
+    const res = await fetch(`${API_BASE}/users/partners?page=${page}&per_page=50${regionParam}`);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const j = await res.json(); const d = j.data || {};
+    all.push(...(d.data||[]));
+    last = d.last_page || 1; page++;
+  } while(page<=last);
+  return all;
+}
+
+/* Re-fetch both datasets from backend (used when region filter changes) */
+async function reloadData(){
   grid.innerHTML = `<div class="loading-wrap"><div class="spinner"></div><div>${lang==='AZ'?'Yüklənir…':'Loading…'}</div></div>`;
   pagEl.innerHTML = '';
   try {
-    const listings = await fetchAllListings();
-    buildData(listings);
+    const [listings, partners] = await Promise.all([fetchAllListings(), fetchAllPartners()]);
+    buildHouses(listings);
+    buildGuides(partners);
     renderCards();
   } catch(err){
     grid.innerHTML = `<div class="empty"><div class="ico">⚠️</div><h3>${lang==='AZ'?'Məlumat yüklənmədi':'Could not load data'}</h3><p>${esc(err.message)}</p></div>`;
   }
 }
 
-function buildData(listings){
+function buildHouses(listings){
   houses = listings.map(l => ({
     id: l.id,
     title: l.title || '',
@@ -818,26 +858,25 @@ function buildData(listings){
     reviewCount: l.reviews_count || 0,
     host: (l.user && l.user.name) || '',
   }));
+}
 
-  const gmap = new Map();
-  listings.forEach(l => {
-    const u = l.user; if(!u) return;
-    if(!gmap.has(u.id)){
-      gmap.set(u.id, {
-        id: u.id,
-        name: u.name || '',
-        bio: u.bio || '',
-        avatar: u.avatar ? STORAGE + u.avatar : '',
-        region: (u.region && u.region.title) || '',
-        languages: Array.isArray(u.languages) ? u.languages.map(c => LANG_LABELS[c] || String(c).toUpperCase()) : [],
-        rating: num(u.rating),
-        reviewCount: u.reviews_count || 0,
-        houseCount: 0,
-      });
-    }
-    gmap.get(u.id).houseCount++;
-  });
-  guides = [...gmap.values()];
+function buildGuides(partners){
+  guides = partners.map(u => ({
+    id: u.id,
+    name: u.name || '',
+    bio: u.bio || '',
+    avatar: u.avatar ? STORAGE + u.avatar : '',
+    regionId: u.region_id,
+    region: (u.region && u.region.title) || '',
+    categories: Array.isArray(u.category) ? u.category.filter(Boolean) : [],
+    houseCount: Array.isArray(u.listings) ? u.listings.filter(l => l.status === 'accepted').length : 0,
+    tourCount: Array.isArray(u.services) ? u.services.filter(s => s.status === 'accepted').length : 0,
+  }));
+  // build the İxtisas dropdown options from the categories actually present
+  const set = new Set();
+  guides.forEach(g => g.categories.forEach(c => set.add(c)));
+  categoriesList = [...set].sort((a,b)=>catLabel(a).localeCompare(catLabel(b),'az'));
+  populateCategories();
 }
 
 /* ── FILTER ── */
@@ -854,7 +893,7 @@ function getFiltered(){
   }
   const s = state.guides;
   return guides.filter(x => {
-    if(s.lang && !x.languages.includes(s.lang)) return false;
+    if(s.cat && !x.categories.includes(s.cat)) return false;
     return true;
   });
 }
@@ -895,13 +934,15 @@ function guideCard(g){
   const img = g.avatar
     ? `<img src="${esc(g.avatar)}" alt="${esc(g.name)}" loading="lazy" onerror="this.style.display='none'"/>`
     : '';
-  const ratingRow = g.rating>0
-    ? `<div class="guide-rating"><span class="stars-txt">${'★'.repeat(Math.round(g.rating))}</span><span class="rating-num">${g.rating.toFixed(1)}</span><span class="review-cnt">(${g.reviewCount} ${t().reviews})</span></div>`
+  const tags = g.categories.length
+    ? `<div class="guide-langs">${g.categories.map(c=>`<span class="lang-tag">${esc(catLabel(c))}</span>`).join('')}</div>`
     : '';
-  const langs = g.languages.length
-    ? `<div class="guide-langs">${g.languages.map(l=>`<span class="lang-tag">${esc(l)}</span>`).join('')}</div>`
-    : '';
-  const houseLbl = lang==='AZ' ? 'ev' : (g.houseCount===1 ? 'house' : 'houses');
+  const counts = [];
+  if(g.houseCount) counts.push(`${g.houseCount} ${lang==='AZ'?'ev':(g.houseCount===1?'house':'houses')}`);
+  if(g.tourCount)  counts.push(`${g.tourCount} ${lang==='AZ'?'tur':(g.tourCount===1?'tour':'tours')}`);
+  const countRow = counts.length ? `<div class="meta-row">${IC.home} ${counts.join(' · ')}</div>` : '';
+  const bioRow = g.bio
+    ? `<div class="guide-bio">${esc(g.bio)}</div>` : '';
   return `
     <div class="tour-card" onclick="window.open('https://kendeget.com/guide/${g.id}','_blank','noopener')">
       <div class="card-img guide-img">
@@ -911,12 +952,12 @@ function guideCard(g){
       </div>
       <div class="card-body">
         <div class="card-title">${esc(g.name)}</div>
-        ${ratingRow}
+        ${bioRow}
         <div class="card-meta">
           ${g.region ? `<div class="meta-row">${IC.pin} ${esc(g.region)}</div>` : ''}
-          <div class="meta-row">${IC.home} ${g.houseCount} ${houseLbl}</div>
+          ${countRow}
         </div>
-        ${langs}
+        ${tags}
       </div>
     </div>`;
 }
@@ -990,27 +1031,36 @@ function populateRegions(){
   sel.value = state.regionId;
 }
 
+/* ── İXTİSAS (guide category) DROPDOWN ── */
+function populateCategories(){
+  const sel = document.getElementById('f-gcat');
+  if(!sel) return;
+  sel.innerHTML = `<option value="">${t().allCat}</option>` +
+    categoriesList.map(c => `<option value="${esc(c)}">${esc(catLabel(c))}</option>`).join('');
+  sel.value = state.guides.cat;
+}
+
 /* ── FILTER EVENTS ── */
 document.getElementById('f-loc').addEventListener('change', e=>{
   state.regionId = e.target.value;        // region id → backend ?regions={id}
   state.houses.page = 1; state.guides.page = 1;
-  reloadListings();                        // re-query backend
+  reloadData();                            // re-query backend (houses + guides)
 });
 document.getElementById('f-people').addEventListener('change', e=>{ state.houses.people=e.target.value; state.houses.page=1; renderCards(); });
 document.getElementById('f-sort').addEventListener('change', e=>{ state.houses.sort=e.target.value; state.houses.page=1; renderCards(); });
-document.getElementById('f-lang').addEventListener('change', e=>{ state.guides.lang=e.target.value; state.guides.page=1; renderCards(); });
+document.getElementById('f-gcat').addEventListener('change', e=>{ state.guides.cat=e.target.value; state.guides.page=1; renderCards(); });
 
 /* ── RESET ── */
 document.getElementById('btn-reset').addEventListener('click', ()=>{
   const hadRegion = state.regionId !== '';
   state.regionId = '';
   Object.assign(state.houses, {people:'',sort:'',page:1});
-  Object.assign(state.guides, {lang:'',page:1});
+  Object.assign(state.guides, {cat:'',page:1});
   document.getElementById('f-loc').value='';
   document.getElementById('f-people').value='';
   document.getElementById('f-sort').value='';
-  document.getElementById('f-lang').value='';
-  if(hadRegion) reloadListings(); else renderCards();
+  document.getElementById('f-gcat').value='';
+  if(hadRegion) reloadData(); else renderCards();
 });
 
 /* ── SUBNAV TABS ── */
@@ -1042,13 +1092,13 @@ function applyLang(){
   const pSel = document.getElementById('f-people');
   pSel.options[0].textContent = t().allPeople;
   for(let i=1;i<pSel.options.length;i++) pSel.options[i].textContent = `${pSel.options[i].value}+ ${t().person}`;
-  document.getElementById('f-lang').options[0].textContent = t().allPeople;
   const sSel = document.getElementById('f-sort');
   sSel.options[0].textContent = lang==='AZ' ? 'Tövsiyə olunan' : 'Recommended';
   sSel.options[1].textContent = lang==='AZ' ? 'Qiymət: ucuzdan' : 'Price: low to high';
   sSel.options[2].textContent = lang==='AZ' ? 'Qiymət: bahadan' : 'Price: high to low';
   document.getElementById('lang-current').textContent = lang;
   if(regionsList.length) populateRegions();
+  if(categoriesList.length) populateCategories();
   renderCards();
 }
 
@@ -1069,11 +1119,12 @@ document.addEventListener('click', e=>{ if(!langWrap.contains(e.target)) langWra
 async function init(){
   applyLang();
   grid.innerHTML = `<div class="loading-wrap"><div class="spinner"></div><div>${lang==='AZ'?'Yüklənir…':'Loading…'}</div></div>`;
-  // Regions dropdown (independent — don't block listings if it fails)
+  // Regions dropdown (independent — don't block content if it fails)
   fetchRegions().then(populateRegions).catch(()=>{});
   try {
-    const listings = await fetchAllListings();
-    buildData(listings);
+    const [listings, partners] = await Promise.all([fetchAllListings(), fetchAllPartners()]);
+    buildHouses(listings);
+    buildGuides(partners);
     dataReady = true;
     renderCards();
   } catch(err){
