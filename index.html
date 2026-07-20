@@ -527,10 +527,10 @@
       <img src="kedenget-logo.svg" alt="kendeget" class="kg-logo"/>
     </a>
     <div class="nav-links">
-      <a class="nav-link" href="https://kendeget.com/about" target="_blank" rel="noopener">Haqqımızda</a>
-      <a class="nav-link" href="https://kendeget.com/rental-homes" target="_blank" rel="noopener">Evlər</a>
-      <a class="nav-link" href="https://kendeget.com/tour-guides" target="_blank" rel="noopener">Bələdçilər</a>
-      <a class="nav-link" href="https://kendeget.com/blogs" target="_blank" rel="noopener">Bloglar</a>
+      <a class="nav-link" href="https://kendeget.com/about" target="_blank" rel="noopener" data-i18n="navAbout">Haqqımızda</a>
+      <a class="nav-link" href="https://kendeget.com/rental-homes" target="_blank" rel="noopener" data-i18n="navHouses">Evlər</a>
+      <a class="nav-link" href="https://kendeget.com/tour-guides" target="_blank" rel="noopener" data-i18n="navGuides">Bələdçilər</a>
+      <a class="nav-link" href="https://kendeget.com/blogs" target="_blank" rel="noopener" data-i18n="navBlogs">Bloglar</a>
     </div>
     <div class="lang-wrap" id="lang-wrap">
       <button class="lang-btn" id="lang-btn" type="button">
@@ -564,7 +564,7 @@
     </div>
     <a class="hero-more-btn" href="https://www.tourismboard.az/az/page/1743-terefdas-inteqrasiya-proqrami" target="_blank" rel="noopener">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M10 3h3v3M13 3L8 8M6 4H3.5A1.5 1.5 0 002 5.5v7A1.5 1.5 0 003.5 14h7A1.5 1.5 0 0012 12.5V10"/></svg>
-      Ətraflı məlumat
+      <span data-i18n="moreInfo">Ətraflı məlumat</span>
     </a>
   </div>
 </div>
@@ -575,7 +575,7 @@
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="filter-panel">
-      <div class="filter-panel-title">Filterlər</div>
+      <div class="filter-panel-title" data-i18n="filtersTitle">Filterlər</div>
 
       <!-- Location: shared -->
       <div class="fg">
@@ -622,9 +622,9 @@
             <span data-i18n="sortBy">Sıralama</span>
           </label>
           <select id="f-sort">
-            <option value="">Tövsiyə olunan</option>
-            <option value="price-asc">Qiymət: ucuzdan</option>
-            <option value="price-desc">Qiymət: bahadan</option>
+            <option value=""           data-i18n="sortRecommended">Tövsiyə olunan</option>
+            <option value="price-asc"  data-i18n="sortPriceAsc">Qiymət: ucuzdan</option>
+            <option value="price-desc" data-i18n="sortPriceDesc">Qiymət: bahadan</option>
           </select>
         </div>
       </div>
@@ -703,8 +703,8 @@
 const T = {
   AZ: {
     tabGuides: 'Bələdçilər', tabHouses: 'Evlər', sortBy: 'Sıralama',
-    heroTitle: { tours: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı', guides: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı', stays: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı' },
-    heroSub:   { tours: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı seçilmiş turizm sənayesi nümayəndələrini Azerbaijan.travel platforması ilə bir araya gətirərək turistlər üçün məlumat əldə etmə və rezervasiya prosesini daha rahat edir. Proqrama qoşulan tərəfdaşlar öz rezervasiya sistemləri vasitəsilə turlar, təcrübələr və yerləşmə xidmətləri üzrə birbaşa rezervasiya imkanı təqdim edirlər. Bu inteqrasiya sayəsində siz seçdiyiniz xidməti müvafiq xidmət təminatçısı üzərindən rahat şəkildə rezervasiya edə bilərsiniz. Rezervasiya, təsdiqləmə, ödəniş və xidmətlə bağlı digər məsələlər birbaşa seçilmiş turizm məhsulunu təqdim edən xidmət təminatçısı tərəfindən idarə olunur.', guides: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı seçilmiş turizm sənayesi nümayəndələrini Azerbaijan.travel platforması ilə bir araya gətirərək turistlər üçün məlumat əldə etmə və rezervasiya prosesini daha rahat edir. Proqrama qoşulan tərəfdaşlar öz rezervasiya sistemləri vasitəsilə turlar, təcrübələr və yerləşmə xidmətləri üzrə birbaşa rezervasiya imkanı təqdim edirlər. Bu inteqrasiya sayəsində siz seçdiyiniz xidməti müvafiq xidmət təminatçısı üzərindən rahat şəkildə rezervasiya edə bilərsiniz. Rezervasiya, təsdiqləmə, ödəniş və xidmətlə bağlı digər məsələlər birbaşa seçilmiş turizm məhsulunu təqdim edən xidmət təminatçısı tərəfindən idarə olunur.', stays: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı seçilmiş turizm sənayesi nümayəndələrini Azerbaijan.travel platforması ilə bir araya gətirərək turistlər üçün məlumat əldə etmə və rezervasiya prosesini daha rahat edir. Proqrama qoşulan tərəfdaşlar öz rezervasiya sistemləri vasitəsilə turlar, təcrübələr və yerləşmə xidmətləri üzrə birbaşa rezervasiya imkanı təqdim edirlər. Bu inteqrasiya sayəsində siz seçdiyiniz xidməti müvafiq xidmət təminatçısı üzərindən rahat şəkildə rezervasiya edə bilərsiniz. Rezervasiya, təsdiqləmə, ödəniş və xidmətlə bağlı digər məsələlər birbaşa seçilmiş turizm məhsulunu təqdim edən xidmət təminatçısı tərəfindən idarə olunur.' },
+    heroTitle: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı',
+    heroSub: 'Azerbaijan.travel Tərəfdaş İnteqrasiya Proqramı seçilmiş turizm sənayesi nümayəndələrini Azerbaijan.travel platforması ilə bir araya gətirərək turistlər üçün məlumat əldə etmə və rezervasiya prosesini daha rahat edir. Proqrama qoşulan tərəfdaşlar öz rezervasiya sistemləri vasitəsilə turlar, təcrübələr və yerləşmə xidmətləri üzrə birbaşa rezervasiya imkanı təqdim edirlər. Bu inteqrasiya sayəsində siz seçdiyiniz xidməti müvafiq xidmət təminatçısı üzərindən rahat şəkildə rezervasiya edə bilərsiniz. Rezervasiya, təsdiqləmə, ödəniş və xidmətlə bağlı digər məsələlər birbaşa seçilmiş turizm məhsulunu təqdim edən xidmət təminatçısı tərəfindən idarə olunur.',
     location: 'Məkan', allLoc: 'Bütün məkanlar',
     category: 'Kateqoriya', allCat: 'Hamısı',
     speciality: 'İxtisas', language: 'Dil',
@@ -723,11 +723,17 @@ const T = {
     wdays: ['B.e','Ç.a','Ç','C.a','C','Ş','B'],
     person: 'nəfər', yearExp: 'il təcrübə', reviews: 'rəy', perNight: '/gecə',
     certified: 'Sertifikatlı',
+    navAbout: 'Haqqımızda', navHouses: 'Evlər', navGuides: 'Bələdçilər', navBlogs: 'Bloglar',
+    filtersTitle: 'Filterlər', moreInfo: 'Ətraflı məlumat',
+    loading: 'Yüklənir…', loadError: 'Məlumat yüklənmədi',
+    noCapacity: 'Adam sayı qeyd edilməyib', maxPrefix: 'maks.',
+    unitHouse: 'ev', unitHouses: 'ev', unitTour: 'tur', unitTours: 'tur',
+    sortRecommended: 'Tövsiyə olunan', sortPriceAsc: 'Qiymət: ucuzdan', sortPriceDesc: 'Qiymət: bahadan',
   },
   EN: {
     tabGuides: 'Guides', tabHouses: 'Houses', sortBy: 'Sort',
-    heroTitle: { tours: 'Azerbaijan.travel Partner Integration Programme', guides: 'Azerbaijan.travel Partner Integration Programme', stays: 'Azerbaijan.travel Partner Integration Programme' },
-    heroSub:   { tours: 'The Azerbaijan.travel Partner Integration Programme brings selected tourism industry representatives together with the Azerbaijan.travel platform, making the process of finding information and booking services easier for travellers. Partners participating in the programme offer direct booking opportunities for tours, experiences, and accommodation services through their own reservation systems. Through this integration, you can conveniently reserve your selected service directly through the relevant service provider. All bookings, confirmations, payments, and other service-related matters are handled directly by the service provider offering the selected tourism product.', guides: 'The Azerbaijan.travel Partner Integration Programme brings selected tourism industry representatives together with the Azerbaijan.travel platform, making the process of finding information and booking services easier for travellers. Partners participating in the programme offer direct booking opportunities for tours, experiences, and accommodation services through their own reservation systems. Through this integration, you can conveniently reserve your selected service directly through the relevant service provider. All bookings, confirmations, payments, and other service-related matters are handled directly by the service provider offering the selected tourism product.', stays: 'The Azerbaijan.travel Partner Integration Programme brings selected tourism industry representatives together with the Azerbaijan.travel platform, making the process of finding information and booking services easier for travellers. Partners participating in the programme offer direct booking opportunities for tours, experiences, and accommodation services through their own reservation systems. Through this integration, you can conveniently reserve your selected service directly through the relevant service provider. All bookings, confirmations, payments, and other service-related matters are handled directly by the service provider offering the selected tourism product.' },
+    heroTitle: 'Azerbaijan.travel Partner Integration Programme',
+    heroSub: 'The Azerbaijan.travel Partner Integration Programme brings selected tourism industry representatives together with the Azerbaijan.travel platform, making the process of finding information and booking services easier for travellers. Partners participating in the programme offer direct booking opportunities for tours, experiences, and accommodation services through their own reservation systems. Through this integration, you can conveniently reserve your selected service directly through the relevant service provider. All bookings, confirmations, payments, and other service-related matters are handled directly by the service provider offering the selected tourism product.',
     location: 'Location', allLoc: 'All locations',
     category: 'Category', allCat: 'All',
     speciality: 'Speciality', language: 'Language',
@@ -746,6 +752,12 @@ const T = {
     wdays: ['Mo','Tu','We','Th','Fr','Sa','Su'],
     person: 'people', yearExp: 'yr exp.', reviews: 'reviews', perNight: '/night',
     certified: 'Certified',
+    navAbout: 'About', navHouses: 'Houses', navGuides: 'Guides', navBlogs: 'Blog',
+    filtersTitle: 'Filters', moreInfo: 'Learn more',
+    loading: 'Loading…', loadError: 'Could not load data',
+    noCapacity: 'Capacity not specified', maxPrefix: 'max',
+    unitHouse: 'house', unitHouses: 'houses', unitTour: 'tour', unitTours: 'tours',
+    sortRecommended: 'Recommended', sortPriceAsc: 'Price: low to high', sortPriceDesc: 'Price: high to low',
   }
 };
 let lang = 'AZ';
@@ -833,7 +845,7 @@ async function fetchAllPartners(){
 
 /* Re-fetch both datasets from backend (used when region filter changes) */
 async function reloadData(){
-  grid.innerHTML = `<div class="loading-wrap"><div class="spinner"></div><div>${lang==='AZ'?'Yüklənir…':'Loading…'}</div></div>`;
+  grid.innerHTML = `<div class="loading-wrap"><div class="spinner"></div><div>${t().loading}</div></div>`;
   pagEl.innerHTML = '';
   try {
     const [listings, partners] = await Promise.all([fetchAllListings(), fetchAllPartners()]);
@@ -841,7 +853,7 @@ async function reloadData(){
     buildGuides(partners);
     renderCards();
   } catch(err){
-    grid.innerHTML = `<div class="empty"><div class="ico">⚠️</div><h3>${lang==='AZ'?'Məlumat yüklənmədi':'Could not load data'}</h3><p>${esc(err.message)}</p></div>`;
+    grid.innerHTML = `<div class="empty"><div class="ico">⚠️</div><h3>${t().loadError}</h3><p>${esc(err.message)}</p></div>`;
   }
 }
 
@@ -923,7 +935,7 @@ function houseCard(h){
         <div class="card-title">${esc(h.title)}</div>
         <div class="card-meta">
           ${h.region ? `<div class="meta-row">${IC.pin} ${esc(h.region)}</div>` : ''}
-          <div class="meta-row">${IC.ppl} ${h.capacity ? `max ${h.capacity} ${t().person}` : (lang==='AZ' ? 'Adam sayı qeyd edilməyib' : 'Capacity not specified')}</div>
+          <div class="meta-row">${IC.ppl} ${h.capacity ? `${t().maxPrefix} ${h.capacity} ${t().person}` : t().noCapacity}</div>
           ${last}
         </div>
       </div>
@@ -938,8 +950,8 @@ function guideCard(g){
     ? `<div class="guide-langs">${g.categories.map(c=>`<span class="lang-tag">${esc(catLabel(c))}</span>`).join('')}</div>`
     : '';
   const counts = [];
-  if(g.houseCount) counts.push(`${g.houseCount} ${lang==='AZ'?'ev':(g.houseCount===1?'house':'houses')}`);
-  if(g.tourCount)  counts.push(`${g.tourCount} ${lang==='AZ'?'tur':(g.tourCount===1?'tour':'tours')}`);
+  if(g.houseCount) counts.push(`${g.houseCount} ${g.houseCount===1?t().unitHouse:t().unitHouses}`);
+  if(g.tourCount)  counts.push(`${g.tourCount} ${g.tourCount===1?t().unitTour:t().unitTours}`);
   const countRow = counts.length ? `<div class="meta-row">${IC.home} ${counts.join(' · ')}</div>` : '';
   const bioRow = g.bio
     ? `<div class="guide-bio">${esc(g.bio)}</div>` : '';
@@ -1018,9 +1030,9 @@ function switchSection(section){
 }
 
 function updateHeader(){
-  const ht = t().heroTitle, hs = t().heroSub;
-  document.getElementById('hero-title').innerHTML = typeof ht==='string' ? ht : (ht[activeSection] || ht.guides || Object.values(ht)[0]);
-  document.getElementById('hero-sub').innerHTML  = typeof hs==='string' ? hs : (hs[activeSection] || hs.guides || Object.values(hs)[0]);
+  document.getElementById('hero-title').textContent = t().heroTitle;
+  document.getElementById('hero-sub').textContent   = t().heroSub;
+  document.title = t().heroTitle;
 }
 
 /* ── REGIONS DROPDOWN ── */
@@ -1092,10 +1104,6 @@ function applyLang(){
   const pSel = document.getElementById('f-people');
   pSel.options[0].textContent = t().allPeople;
   for(let i=1;i<pSel.options.length;i++) pSel.options[i].textContent = `${pSel.options[i].value}+ ${t().person}`;
-  const sSel = document.getElementById('f-sort');
-  sSel.options[0].textContent = lang==='AZ' ? 'Tövsiyə olunan' : 'Recommended';
-  sSel.options[1].textContent = lang==='AZ' ? 'Qiymət: ucuzdan' : 'Price: low to high';
-  sSel.options[2].textContent = lang==='AZ' ? 'Qiymət: bahadan' : 'Price: high to low';
   document.getElementById('lang-current').textContent = lang;
   if(regionsList.length) populateRegions();
   if(categoriesList.length) populateCategories();
@@ -1118,7 +1126,7 @@ document.addEventListener('click', e=>{ if(!langWrap.contains(e.target)) langWra
 /* ── INIT ── */
 async function init(){
   applyLang();
-  grid.innerHTML = `<div class="loading-wrap"><div class="spinner"></div><div>${lang==='AZ'?'Yüklənir…':'Loading…'}</div></div>`;
+  grid.innerHTML = `<div class="loading-wrap"><div class="spinner"></div><div>${t().loading}</div></div>`;
   // Regions dropdown (independent — don't block content if it fails)
   fetchRegions().then(populateRegions).catch(()=>{});
   try {
@@ -1128,7 +1136,7 @@ async function init(){
     dataReady = true;
     renderCards();
   } catch(err){
-    grid.innerHTML = `<div class="empty"><div class="ico">⚠️</div><h3>${lang==='AZ'?'Məlumat yüklənmədi':'Could not load data'}</h3><p>${esc(err.message)}</p></div>`;
+    grid.innerHTML = `<div class="empty"><div class="ico">⚠️</div><h3>${t().loadError}</h3><p>${esc(err.message)}</p></div>`;
   }
 }
 init();
